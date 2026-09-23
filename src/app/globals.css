@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #07080a;
+  --panel: #0e1014;
+  --line: rgba(255, 255, 255, 0.08);
+  --muted: #8b919b;
+  --text: #e8eaed;
+  --up: #3dd68c;
+  --down: #f07178;
+  --accent: #c8f542;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100%;
+}
+
+body {
+  font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  background-image:
+    radial-gradient(1200px 600px at 10% -10%, rgba(200, 245, 66, 0.05), transparent 50%),
+    linear-gradient(180deg, #07080a 0%, #07080a 100%);
+}
+
+.mono {
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+
+.up { color: var(--up); }
+.down { color: var(--down); }
+
+/* wallet adapter restyle */
+.wallet-adapter-button {
+  background: transparent !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 999px !important;
+  height: 36px !important;
+  font-size: 13px !important;
+  font-family: inherit !important;
+}
+.wallet-adapter-button:hover {
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+.wallet-adapter-modal-wrapper {
+  background: #0e1014 !important;
+}
