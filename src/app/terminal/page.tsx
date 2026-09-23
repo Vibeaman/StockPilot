@@ -189,9 +189,9 @@ export default function TerminalPage() {
   return (
     <div className="space-y-6 max-w-3xl">
       <div>
-        <p className="text-[11px] uppercase tracking-widest text-[#8b919b]">AI strategy terminal</p>
+        <p className="text-[11px] uppercase tracking-widest text-[#9a96b0]">AI strategy terminal</p>
         <h1 className="text-3xl font-semibold tracking-tight">What do you want StockPilot to do?</h1>
-        <p className="text-[#8b919b] mt-2 text-sm">
+        <p className="text-[#9a96b0] mt-2 text-sm">
           The model only returns a validated rule. It cannot sign. Execution is wallet-approved.
         </p>
       </div>
@@ -206,7 +206,7 @@ export default function TerminalPage() {
         <div className="flex flex-wrap gap-2">
           <button
             disabled={busy}
-            className="px-4 py-2 bg-[#c8f542] text-black text-sm font-medium disabled:opacity-50"
+            className="px-4 py-2 bg-[#14f195] text-black text-sm font-medium disabled:opacity-50"
           >
             {busy ? "Parsing…" : "Create strategy"}
           </button>
@@ -222,14 +222,14 @@ export default function TerminalPage() {
 
       {err && (
         <div className="panel p-4 text-sm">
-          <div className="text-[#f07178]">{err}</div>
-          {hint && <div className="text-[#8b919b] mt-1">{hint}</div>}
+          <div className="text-[#ff6b8a]">{err}</div>
+          {hint && <div className="text-[#9a96b0] mt-1">{hint}</div>}
         </div>
       )}
 
       {draft && (
         <div className="panel p-5 space-y-4">
-          <div className="text-[11px] uppercase tracking-widest text-[#8b919b]">Strategy preview</div>
+          <div className="text-[11px] uppercase tracking-widest text-[#9a96b0]">Strategy preview</div>
           <dl className="grid grid-cols-2 gap-3 text-sm">
             <Row k="Asset" v={draft.asset} />
             <Row k="Action" v={draft.action} />
@@ -238,7 +238,7 @@ export default function TerminalPage() {
             <Row k="Live market" v={fmtUsd(previewQ?.marketPrice)} />
             <Row k="Live reference" v={fmtUsd(previewQ?.referencePrice)} />
           </dl>
-          <label className="flex items-center gap-2 text-sm text-[#8b919b]">
+          <label className="flex items-center gap-2 text-sm text-[#9a96b0]">
             <input type="checkbox" checked={demo} onChange={(e) => setDemo(e.target.checked)} />
             Demo mode — simulate a trigger even if the live market has not dipped
           </label>
@@ -256,16 +256,16 @@ export default function TerminalPage() {
       )}
 
       {signal && (
-        <div className="panel p-5 space-y-3 border-[#c8f542]/40">
-          <div className="text-[11px] uppercase tracking-widest text-[#c8f542]">Signal detected</div>
+        <div className="panel p-5 space-y-3 border-[#14f195]/40">
+          <div className="text-[11px] uppercase tracking-widest text-[#14f195]">Signal detected</div>
           <p className="text-sm">{signal.reason}</p>
-          <p className="text-xs text-[#8b919b]">
+          <p className="text-xs text-[#9a96b0]">
             Review, then approve in your wallet. Nothing broadcasts until you sign.
           </p>
           <button
             disabled={busy || !connected}
             onClick={() => execute(signal.strategy)}
-            className="px-4 py-2 bg-[#c8f542] text-black text-sm font-medium disabled:opacity-50"
+            className="px-4 py-2 bg-[#14f195] text-black text-sm font-medium disabled:opacity-50"
           >
             {busy ? "Waiting on wallet…" : `Review ${signal.strategy.action} ${fmtUsd(signal.strategy.amount, 0)} ${signal.strategy.asset}`}
           </button>
@@ -273,9 +273,9 @@ export default function TerminalPage() {
       )}
 
       {txNote && (
-        <div className="text-sm text-[#8b919b]">
+        <div className="text-sm text-[#9a96b0]">
           {txNote.startsWith("Submitted") ? (
-            <a className="text-[#c8f542]" href={explorerTx(txNote.replace("Submitted ", ""))} target="_blank" rel="noreferrer">
+            <a className="text-[#14f195]" href={explorerTx(txNote.replace("Submitted ", ""))} target="_blank" rel="noreferrer">
               View on Solscan →
             </a>
           ) : (
@@ -290,7 +290,7 @@ export default function TerminalPage() {
 function Row({ k, v }: { k: string; v: string }) {
   return (
     <div>
-      <dt className="text-[11px] uppercase tracking-widest text-[#8b919b]">{k}</dt>
+      <dt className="text-[11px] uppercase tracking-widest text-[#9a96b0]">{k}</dt>
       <dd className="mt-0.5">{v}</dd>
     </div>
   );

@@ -1,14 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #07080a;
-  --panel: #0e1014;
-  --line: rgba(255, 255, 255, 0.08);
-  --muted: #8b919b;
-  --text: #e8eaed;
-  --up: #3dd68c;
-  --down: #f07178;
-  --accent: #c8f542;
+  --bg: #05030a;
+  --panel: #0b0814;
+  --line: rgba(153, 69, 255, 0.18);
+  --muted: #9a96b0;
+  --text: #f4f1ff;
+  --up: #14f195;
+  --down: #ff6b8a;
+  --accent: #9945ff;
+  --accent-2: #14f195;
 }
 
 html,
@@ -19,10 +20,16 @@ body {
 }
 
 body {
-  font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
   background-image:
-    radial-gradient(1200px 600px at 10% -10%, rgba(200, 245, 66, 0.05), transparent 50%),
-    linear-gradient(180deg, #07080a 0%, #07080a 100%);
+    radial-gradient(900px 480px at 8% -8%, rgba(153, 69, 255, 0.22), transparent 55%),
+    radial-gradient(700px 420px at 92% 0%, rgba(20, 241, 149, 0.08), transparent 50%),
+    linear-gradient(180deg, #05030a 0%, #07040f 100%);
+}
+
+.display {
+  font-family: "Space Grotesk", Inter, sans-serif;
+  letter-spacing: -0.04em;
 }
 
 .mono {
@@ -30,14 +37,33 @@ body {
 }
 
 .panel {
-  background: var(--panel);
+  background: rgba(11, 8, 20, 0.82);
   border: 1px solid var(--line);
+  backdrop-filter: blur(12px);
 }
 
 .up { color: var(--up); }
 .down { color: var(--down); }
 
-/* wallet adapter restyle */
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--accent-2);
+  box-shadow: 0 0 10px var(--accent-2);
+}
+
+.btn-primary {
+  background: var(--accent-2);
+  color: #04140c;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.btn-primary:hover { filter: brightness(1.08); }
+
 .wallet-adapter-button {
   background: transparent !important;
   border: 1px solid var(--line) !important;
@@ -45,10 +71,11 @@ body {
   height: 36px !important;
   font-size: 13px !important;
   font-family: inherit !important;
+  color: #f4f1ff !important;
 }
 .wallet-adapter-button:hover {
-  background: rgba(255, 255, 255, 0.04) !important;
+  background: rgba(153, 69, 255, 0.12) !important;
 }
 .wallet-adapter-modal-wrapper {
-  background: #0e1014 !important;
+  background: #0b0814 !important;
 }

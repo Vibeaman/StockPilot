@@ -35,7 +35,7 @@ export default function StockPage() {
   }, [quote?.marketPrice]);
 
   if (!asset) {
-    return <p className="text-[#8b919b]">Unknown asset.</p>;
+    return <p className="text-[#9a96b0]">Unknown asset.</p>;
   }
 
   const pd = quote?.premiumDiscountPct;
@@ -44,15 +44,15 @@ export default function StockPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-[11px] uppercase tracking-widest text-[#8b919b]">{asset.source}</p>
+          <p className="text-[11px] uppercase tracking-widest text-[#9a96b0]">{asset.source}</p>
           <h1 className="text-3xl font-semibold tracking-tight">
-            {asset.symbol} <span className="text-[#8b919b] text-xl font-normal">{asset.name}</span>
+            {asset.symbol} <span className="text-[#9a96b0] text-xl font-normal">{asset.name}</span>
           </h1>
         </div>
         <div className="flex gap-2">
           <Link
             href={`/terminal?asset=${asset.symbol}`}
-            className="px-4 py-2 text-sm bg-[#c8f542] text-black font-medium"
+            className="px-4 py-2 text-sm bg-[#14f195] text-black font-medium"
           >
             Create strategy
           </Link>
@@ -72,15 +72,15 @@ export default function StockPage() {
       </div>
 
       <div className="panel p-4 h-64">
-        <div className="text-[11px] uppercase tracking-widest text-[#8b919b] mb-2">
+        <div className="text-[11px] uppercase tracking-widest text-[#9a96b0] mb-2">
           Intraday sketch (not a historical Pyth series)
         </div>
         <ResponsiveContainer width="100%" height="90%">
           <AreaChart data={chart}>
             <defs>
               <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#c8f542" stopOpacity={0.25} />
-                <stop offset="100%" stopColor="#c8f542" stopOpacity={0} />
+                <stop offset="0%" stopColor="#14f195" stopOpacity={0.25} />
+                <stop offset="100%" stopColor="#14f195" stopOpacity={0} />
               </linearGradient>
             </defs>
             <XAxis dataKey="t" hide />
@@ -89,31 +89,31 @@ export default function StockPage() {
               contentStyle={{ background: "#0e1014", border: "1px solid rgba(255,255,255,0.1)" }}
               formatter={(v) => fmtUsd(typeof v === "number" ? v : Number(v))}
             />
-            <Area type="monotone" dataKey="p" stroke="#c8f542" fill="url(#g)" />
+            <Area type="monotone" dataKey="p" stroke="#14f195" fill="url(#g)" />
           </AreaChart>
         </ResponsiveContainer>
       </div>
 
       <div className="panel p-4 text-sm space-y-2">
         <div className="flex justify-between">
-          <span className="text-[#8b919b]">Mint</span>
-          <a className="mono text-[#c8f542]" href={explorerToken(asset.mint)} target="_blank" rel="noreferrer">
+          <span className="text-[#9a96b0]">Mint</span>
+          <a className="mono text-[#14f195]" href={explorerToken(asset.mint)} target="_blank" rel="noreferrer">
             {shortAddr(asset.mint, 6)}
           </a>
         </div>
         {asset.marketFeedId && (
           <div className="flex justify-between gap-4">
-            <span className="text-[#8b919b]">Pyth market feed</span>
+            <span className="text-[#9a96b0]">Pyth market feed</span>
             <span className="mono text-xs break-all">{asset.marketFeedId.slice(0, 16)}…</span>
           </div>
         )}
         {asset.referenceFeedId && (
           <div className="flex justify-between gap-4">
-            <span className="text-[#8b919b]">Pyth reference feed</span>
+            <span className="text-[#9a96b0]">Pyth reference feed</span>
             <span className="mono text-xs break-all">{asset.referenceFeedId.slice(0, 16)}…</span>
           </div>
         )}
-        <p className="text-xs text-[#8b919b] pt-2">
+        <p className="text-xs text-[#9a96b0] pt-2">
           Generated analysis, not financial advice.{" "}
           {pd != null && pd < 0
             ? `${asset.symbol} trades ${fmtPct(pd)} below its reference — the token is at a discount to the cash print.`
@@ -139,9 +139,9 @@ function Stat({
 }) {
   return (
     <div className="panel p-4">
-      <div className="text-[11px] uppercase tracking-widest text-[#8b919b]">{label}</div>
+      <div className="text-[11px] uppercase tracking-widest text-[#9a96b0]">{label}</div>
       <div className={cn("text-xl font-medium mt-1 mono", className)}>{value}</div>
-      {hint && <div className="text-[11px] text-[#8b919b] mt-1">{hint}</div>}
+      {hint && <div className="text-[11px] text-[#9a96b0] mt-1">{hint}</div>}
     </div>
   );
 }

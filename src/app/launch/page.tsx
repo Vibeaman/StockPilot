@@ -25,9 +25,9 @@ export default function LaunchPage() {
   return (
     <div className="space-y-6 max-w-3xl">
       <div>
-        <p className="text-[11px] uppercase tracking-widest text-[#8b919b]">Meteora DBC · issuer</p>
+        <p className="text-[11px] uppercase tracking-widest text-[#9a96b0]">Meteora DBC · issuer</p>
         <h1 className="text-3xl font-semibold tracking-tight">Equity curve, not a meme curve.</h1>
-        <p className="text-[#8b919b] mt-2 text-sm">
+        <p className="text-[#9a96b0] mt-2 text-sm">
           DBC is a launch primitive. StockPilot uses it for tokenized-stock discovery: USDC quote, flatter
           ramp, higher graduation, leftover vesting. We will not pretend a pool exists.
         </p>
@@ -43,7 +43,7 @@ export default function LaunchPage() {
       </div>
 
       <div className="panel p-4 h-56">
-        <div className="text-[11px] uppercase tracking-widest text-[#8b919b] mb-2">
+        <div className="text-[11px] uppercase tracking-widest text-[#9a96b0] mb-2">
           Discovery curve (log ramp)
         </div>
         <ResponsiveContainer width="100%" height="85%">
@@ -54,12 +54,12 @@ export default function LaunchPage() {
               contentStyle={{ background: "#0e1014", border: "1px solid rgba(255,255,255,0.1)" }}
               formatter={(v) => fmtUsd(typeof v === "number" ? v : Number(v))}
             />
-            <Area type="monotone" dataKey="price" stroke="#c8f542" fill="#c8f54222" />
+            <Area type="monotone" dataKey="price" stroke="#14f195" fill="#14f19522" />
           </AreaChart>
         </ResponsiveContainer>
       </div>
 
-      <label className="block text-sm text-[#8b919b]">
+      <label className="block text-sm text-[#9a96b0]">
         Simulated fill progress
         <input
           type="range"
@@ -74,15 +74,15 @@ export default function LaunchPage() {
 
       <ul className="panel p-4 text-sm space-y-2 text-[#cfd3d8]">
         {p.notes.map((n) => (
-          <li key={n} className="pl-3 border-l border-[#c8f542]/40">
+          <li key={n} className="pl-3 border-l border-[#14f195]/40">
             {n}
           </li>
         ))}
       </ul>
 
-      <p className="text-xs text-[#8b919b]">
+      <p className="text-xs text-[#9a96b0]">
         Live <code>createPool</code> is gated on a Meteora partner config account. SDK:{" "}
-        <a className="text-[#c8f542]" href="https://docs.meteora.ag/developer-guides/dbc" target="_blank" rel="noreferrer">
+        <a className="text-[#14f195]" href="https://docs.meteora.ag/developer-guides/dbc" target="_blank" rel="noreferrer">
           docs.meteora.ag/developer-guides/dbc
         </a>
         . Keepers already migrate Stock Token quote pairs to DAMM v2.
@@ -94,7 +94,7 @@ export default function LaunchPage() {
 function Stat({ k, v }: { k: string; v: string }) {
   return (
     <div className="panel p-3">
-      <div className="text-[11px] uppercase tracking-widest text-[#8b919b]">{k}</div>
+      <div className="text-[11px] uppercase tracking-widest text-[#9a96b0]">{k}</div>
       <div className="mt-1 font-medium">{v}</div>
     </div>
   );

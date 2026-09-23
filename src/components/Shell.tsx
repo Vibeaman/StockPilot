@@ -17,12 +17,15 @@ export function Shell({ children }: { children: React.ReactNode }) {
   const path = usePathname();
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#07080a]/90 backdrop-blur">
+      <header className="sticky top-0 z-40 border-b border-[rgba(153,69,255,0.18)] bg-[#05030a]/85 backdrop-blur">
         <div className="mx-auto max-w-6xl px-4 h-14 flex items-center justify-between gap-4">
-          <Link href="/" className="flex items-baseline gap-2 shrink-0">
-            <span className="font-semibold tracking-tight">StockPilot</span>
-            <span className="hidden sm:inline text-[11px] uppercase tracking-widest text-[#8b919b]">
-              programmable stocks
+          <Link href="/" className="flex items-center gap-3 shrink-0">
+            <span className="display text-lg font-semibold tracking-tight">
+              StockPilot<span className="text-[#14f195]">_</span>
+            </span>
+            <span className="hidden sm:inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.22em] text-[#14f195]">
+              <span className="live-dot" />
+              Live
             </span>
           </Link>
           <nav className="flex items-center gap-1 text-sm overflow-x-auto">
@@ -34,7 +37,9 @@ export function Shell({ children }: { children: React.ReactNode }) {
                   href={n.href}
                   className={cn(
                     "px-3 py-1.5 rounded-full transition-colors",
-                    active ? "text-white bg-white/8" : "text-[#8b919b] hover:text-white"
+                    active
+                      ? "text-white bg-[rgba(153,69,255,0.22)]"
+                      : "text-[#9a96b0] hover:text-white"
                   )}
                 >
                   {n.label}
@@ -45,8 +50,8 @@ export function Shell({ children }: { children: React.ReactNode }) {
           <WalletMultiButton />
         </div>
       </header>
-      <main className="flex-1 mx-auto w-full max-w-6xl px-4 py-6">{children}</main>
-      <footer className="border-t border-white/10 text-[11px] text-[#8b919b] px-4 py-4">
+      <main className="flex-1 mx-auto w-full max-w-6xl px-4 py-8">{children}</main>
+      <footer className="border-t border-[rgba(153,69,255,0.18)] text-[11px] text-[#9a96b0] px-4 py-5">
         <div className="mx-auto max-w-6xl flex flex-wrap gap-x-6 gap-y-1">
           <span>AI writes the rule. You sign the trade. Pyth decides when.</span>
           <span>Not financial advice.</span>

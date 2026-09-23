@@ -15,12 +15,12 @@ export default function ActivityPage() {
   return (
     <div className="space-y-6">
       <div>
-        <p className="text-[11px] uppercase tracking-widest text-[#8b919b]">Activity</p>
+        <p className="text-[11px] uppercase tracking-widest text-[#9a96b0]">Activity</p>
         <h1 className="text-3xl font-semibold tracking-tight">Signed trades only.</h1>
       </div>
       <div className="panel overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="text-[11px] uppercase tracking-widest text-[#8b919b] border-b border-white/8">
+          <thead className="text-[11px] uppercase tracking-widest text-[#9a96b0] border-b border-white/8">
             <tr>
               <th className="text-left font-medium px-4 py-2">Action</th>
               <th className="text-left font-medium px-4 py-2">Asset</th>
@@ -32,7 +32,7 @@ export default function ActivityPage() {
           <tbody>
             {rows.length === 0 && (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-[#8b919b]">
+                <td colSpan={5} className="px-4 py-8 text-[#9a96b0]">
                   No transactions yet.
                 </td>
               </tr>
@@ -45,11 +45,11 @@ export default function ActivityPage() {
                 <td className="px-4 py-3 text-right">{r.status}</td>
                 <td className="px-4 py-3 text-right">
                   {r.signature ? (
-                    <a className="text-[#c8f542]" href={explorerTx(r.signature)} target="_blank" rel="noreferrer">
+                    <a className="text-[#14f195]" href={explorerTx(r.signature)} target="_blank" rel="noreferrer">
                       {shortAddr(r.signature, 4)}
                     </a>
                   ) : (
-                    <span className="text-[#8b919b]">{r.note ?? "—"}</span>
+                    <span className="text-[#9a96b0]">{r.note ?? "—"}</span>
                   )}
                 </td>
               </tr>

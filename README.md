@@ -41,30 +41,23 @@ Next.js 15 · TypeScript · Tailwind 4 · Solana wallet adapter · Gemini (`@goo
 
 Persistence is **localStorage** keyed by wallet (no private keys). Swap in Supabase later if you want.
 
-## Setup
+## Deploy on Vercel (this is the path)
 
-```bash
-git clone https://github.com/Vibeaman/StockPilot.git
-cd StockPilot
-npm install
-cp .env.example .env.local
-```
+1. Import **https://github.com/Vibeaman/StockPilot** into Vercel (Framework Preset: Next.js, Root Directory: `.`).
+2. Add environment variables **before the first deploy**:
 
-### Environment
+| Name | Required | Where to get it | Vercel environments |
+|---|---|---|---|
+| `GEMINI_API_KEY` | **Yes** | [Google AI Studio](https://aistudio.google.com/apikey) | Production, Preview, Development |
+| `PYTH_API_KEY` | **Yes for live Pyth** | [Pyth Terminal](https://docs.pyth.network/price-feeds/core/upgrade/preparing) (free trial) | Production, Preview, Development |
+| `NEXT_PUBLIC_SOLANA_RPC_URL` | No | Public mainnet is the default. Helius/Triton is better on demo day. | Production, Preview |
+| `NEXT_PUBLIC_SOLANA_CLUSTER` | No | `mainnet-beta` | Production |
 
-| Var | Required | Notes |
-|---|---|---|
-| `GEMINI_API_KEY` | Yes for parser | [Google AI Studio](https://aistudio.google.com/apikey). Server-side only. |
-| `PYTH_API_KEY` | Recommended | Hermes requires a Bearer key after the Aug 2026 Core upgrade. Free trial via [Pyth Terminal](https://docs.pyth.network/price-feeds/core/upgrade/preparing). Public Hermes may still answer some calls. |
-| `NEXT_PUBLIC_SOLANA_RPC_URL` | No | Defaults to public mainnet. Use Helius/Triton for demo day. |
+Do **not** prefix `GEMINI_API_KEY` or `PYTH_API_KEY` with `NEXT_PUBLIC_`. Those stay on the server (`/api/strategy/parse`, `/api/prices`).
+
+3. Deploy. Paste the `*.vercel.app` URL into the Stocklana submission.
 
 No agent API key. No Jupiter key. No PreStocks key. No private keys.
-
-```bash
-npm run dev
-```
-
-Open http://localhost:3000
 
 ## Integrations (honest)
 
@@ -85,6 +78,4 @@ Open http://localhost:3000
 
 Not financial advice. Tokenized stocks are not the listed equity.
 
-## Deploy
-
-Vercel, root of this repo, env vars above. Mainnet RPC recommended for Jupiter routes.
+Redeploy after changing env vars. Mainnet RPC is recommended so Jupiter can route xStock swaps.
