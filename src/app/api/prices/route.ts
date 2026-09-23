@@ -16,10 +16,13 @@ export async function GET() {
         return { assets: [], quotes: [] };
       }),
     ]);
+    const pythLive = pyth.filter((q) => q.marketPrice != null).length;
     return NextResponse.json({
       quotes: [...pyth, ...pre.quotes],
       prestocks: pre.assets,
       asOf: Date.now(),
+      pythLive,
+      pythConfigured: Boolean(process.env.PYTH_API_KEY),
     });
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : "price fetch failed";

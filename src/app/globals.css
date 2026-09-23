@@ -64,14 +64,34 @@ body {
 
 .btn-primary:hover { filter: brightness(1.08); }
 
-.wallet-adapter-button {
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.wallet-slot .wallet-adapter-button {
   background: transparent !important;
   border: 1px solid var(--line) !important;
   border-radius: 999px !important;
   height: 36px !important;
-  font-size: 13px !important;
+  min-height: 36px !important;
+  max-width: 160px !important;
+  padding: 0 12px !important;
+  font-size: 12px !important;
   font-family: inherit !important;
   color: #f4f1ff !important;
+  white-space: nowrap !important;
+  line-height: 36px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+.wallet-slot .wallet-adapter-button-start-icon {
+  width: 16px !important;
+  height: 16px !important;
+  margin: 0 !important;
+}
+.wallet-slot .wallet-adapter-button-start-icon img {
+  width: 16px !important;
+  height: 16px !important;
 }
 .wallet-adapter-button:hover {
   background: rgba(153, 69, 255, 0.12) !important;

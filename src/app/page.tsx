@@ -8,7 +8,13 @@ import { fmtPct, fmtUsd, cn } from "@/lib/format";
 import { loadActivity, loadStrategies } from "@/lib/store";
 import type { Activity, Asset, PriceQuote, Strategy } from "@/lib/types";
 
-type Payload = { quotes: PriceQuote[]; prestocks: Asset[]; asOf: number };
+type Payload = {
+  quotes: PriceQuote[];
+  prestocks: Asset[];
+  asOf: number;
+  pythLive?: number;
+  pythConfigured?: boolean;
+};
 
 export default function MarketPage() {
   const { publicKey } = useWallet();
@@ -86,6 +92,12 @@ export default function MarketPage() {
       {err && (
         <div className="panel p-3 text-sm text-[#ff6b8a]">
           Price feed issue: {err}. UI stays up — retrying.
+        </div>
+      )}
+      {data && (data.pythLive ?? 0) === 0 && (
+        <div className="panel p-3 text-sm text-[#9a96b0]">
+          xStock quotes are empty. Set <span className="mono">PYTH_API_KEY</span> on Vercel
+          (the Bearer token only) and Redeploy. PreStocks below still load without a key.
         </div>
       )}
 

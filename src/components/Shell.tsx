@@ -18,17 +18,22 @@ export function Shell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col">
       <header className="sticky top-0 z-40 border-b border-[rgba(153,69,255,0.18)] bg-[#05030a]/85 backdrop-blur">
-        <div className="mx-auto max-w-6xl px-4 h-14 flex items-center justify-between gap-4">
-          <Link href="/" className="flex items-center gap-3 shrink-0">
-            <span className="display text-lg font-semibold tracking-tight">
-              StockPilot<span className="text-[#14f195]">_</span>
-            </span>
-            <span className="hidden sm:inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.22em] text-[#14f195]">
-              <span className="live-dot" />
-              Live
-            </span>
-          </Link>
-          <nav className="flex items-center gap-1 text-sm overflow-x-auto">
+        <div className="mx-auto max-w-6xl px-4 py-2.5 flex flex-col gap-2 sm:h-14 sm:flex-row sm:items-center sm:justify-between sm:py-0">
+          <div className="flex items-center justify-between gap-3">
+            <Link href="/" className="flex items-center gap-2 shrink-0">
+              <span className="display text-lg font-semibold tracking-tight">
+                StockPilot<span className="text-[#14f195]">_</span>
+              </span>
+              <span className="hidden md:inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.22em] text-[#14f195]">
+                <span className="live-dot" />
+                Live
+              </span>
+            </Link>
+            <div className="wallet-slot shrink-0">
+              <WalletMultiButton />
+            </div>
+          </div>
+          <nav className="flex items-center gap-1 text-sm overflow-x-auto no-scrollbar -mx-1 px-1">
             {NAV.map((n) => {
               const active = n.href === "/" ? path === "/" : path.startsWith(n.href);
               return (
@@ -36,7 +41,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
                   key={n.href}
                   href={n.href}
                   className={cn(
-                    "px-3 py-1.5 rounded-full transition-colors",
+                    "px-3 py-1.5 rounded-full transition-colors whitespace-nowrap",
                     active
                       ? "text-white bg-[rgba(153,69,255,0.22)]"
                       : "text-[#9a96b0] hover:text-white"
@@ -47,7 +52,6 @@ export function Shell({ children }: { children: React.ReactNode }) {
               );
             })}
           </nav>
-          <WalletMultiButton />
         </div>
       </header>
       <main className="flex-1 mx-auto w-full max-w-6xl px-4 py-8">{children}</main>
