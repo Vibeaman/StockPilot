@@ -17,8 +17,8 @@ function toNumber(p?: { price: string; expo: number }): number | null {
   return Number.isFinite(n) ? n : null;
 }
 
-function hasAnyPrice(quotes: PriceQuote[]): boolean {
-  return quotes.some((q) => q.marketPrice != null || q.referencePrice != null);
+function missingMarket(quotes: PriceQuote[]): boolean {
+  return quotes.some((q) => q.marketPrice == null);
 }
 
 function lastClose(json: unknown): { price: number; time?: number } | null {
@@ -115,15 +115,21 @@ async function fetchFromJupiter(): Promise<PriceQuote[]> {
   const res = await fetch(`${JUPITER_PRICE}?ids=${ids}`, { cache: "no-store" });
   if (!res.ok) throw new Error(`Jupiter price ${res.status}`);
   const json = await res.json();
-  const table = (json.data ?? json) as Record<string, { usdPrice?: number; price?: number }>;
+  const table = (json.data ?? json) as Record<
+    string,
+    { usdPrice?: number; price?: number; stockData?: { price?: number } }
+  >;
   return XSTOCKS.map((a) => {
     const row = table[a.mint];
     const marketPrice = row?.usdPrice ?? row?.price ?? null;
+    const referencePrice = row?.stockData?.price ?? null;
+    const m = marketPrice != null ? Number(marketPrice) : null;
+    const r = referencePrice != null ? Number(referencePrice) : null;
     return {
       symbol: a.symbol,
-      marketPrice: marketPrice != null ? Number(marketPrice) : null,
-      referencePrice: null,
-      premiumDiscountPct: null,
+      marketPrice: m,
+      referencePrice: r,
+      premiumDiscountPct: premiumDiscount(m, r),
       marketFeedId: a.marketFeedId,
       referenceFeedId: a.referenceFeedId,
       source: "pyth" as const,
@@ -171,7 +177,7 @@ export async function fetchPythQuotes(): Promise<PriceQuote[]> {
     } catch (e) {
       console.error("pyth pro", e);
     }
-    if (!hasAnyPrice(quotes)) {
+    if (missingMarket(quotes)) {
       try {
         quotes = mergeQuotes(quotes, await fetchFromHermes(HERMES_PRO, key));
       } catch (e) {
@@ -180,7 +186,7 @@ export async function fetchPythQuotes(): Promise<PriceQuote[]> {
     }
   }
 
-  if (!hasAnyPrice(quotes)) {
+  if (missingMarket(quotes)) {
     try {
       quotes = mergeQuotes(quotes, await fetchFromHermes(HERMES_PUBLIC, key));
     } catch (e) {
@@ -188,7 +194,7 @@ export async function fetchPythQuotes(): Promise<PriceQuote[]> {
     }
   }
 
-  if (!hasAnyPrice(quotes)) {
+  if (missingMarket(quotes)) {
     try {
       quotes = mergeQuotes(quotes, await fetchFromJupiter());
     } catch (e) {
