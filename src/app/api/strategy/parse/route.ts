@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 import { z } from "zod";
+import { parseLocal } from "@/lib/parseLocal";
 
 export const dynamic = "force-dynamic";
 
@@ -35,6 +36,37 @@ Rules:
 - Never invent a trade the user did not specify.
 - action is BUY, SELL, or ALERT.`;
 
+function finish(raw: unknown) {
+  if (raw && typeof raw === "object" && "error" in raw) {
+    const r = raw as { error: string; hint?: string };
+    return NextResponse.json({
+      error: r.error === "ambiguous" ? "Ambiguous strategy" : r.error,
+      hint: r.hint,
+    });
+  }
+  const parsed = Schema.safeParse(raw);
+  if (!parsed.success) {
+    return NextResponse.json({
+      error: "Could not validate that strategy",
+      hint: "Try: Buy $100 of NVDA if it falls 2% below its reference price.",
+    });
+  }
+  const s = parsed.data;
+  if (s.conditionType.includes("REFERENCE") && s.referenceMultiplier == null) {
+    return NextResponse.json({
+      error: "Missing reference multiplier",
+      hint: "Specify a percent vs the reference price, e.g. 2% below reference.",
+    });
+  }
+  if ((s.conditionType === "PRICE_BELOW" || s.conditionType === "PRICE_ABOVE") && s.threshold == null) {
+    return NextResponse.json({
+      error: "Missing price threshold",
+      hint: "Specify a dollar price, e.g. below $180.",
+    });
+  }
+  return NextResponse.json(s);
+}
+
 export async function POST(req: Request) {
   const body = await req.json().catch(() => ({}));
   const prompt = String(body.prompt ?? "").trim();
@@ -42,15 +74,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Missing prompt" }, { status: 400 });
   }
 
+  const local = parseLocal(prompt);
+  if (!("error" in local)) {
+    return finish(local);
+  }
+
   const key = process.env.GEMINI_API_KEY;
   if (!key) {
-    return NextResponse.json(
-      {
-        error: "GEMINI_API_KEY is not set",
-        hint: "Add GEMINI_API_KEY to .env.local. The parser never executes trades.",
-      },
-      { status: 503 }
-    );
+    return finish(local);
   }
 
   try {
@@ -62,45 +93,9 @@ export async function POST(req: Request) {
     const text = (result.text ?? "").trim();
     const jsonText = text.replace(/^```(?:json)?/i, "").replace(/```$/, "").trim();
     const raw = JSON.parse(jsonText);
-
-    if (raw.error) {
-      return NextResponse.json({
-        error: raw.error === "ambiguous" ? "Ambiguous strategy" : raw.error,
-        hint: raw.hint,
-      });
-    }
-
-    const parsed = Schema.safeParse(raw);
-    if (!parsed.success) {
-      return NextResponse.json({
-        error: "Could not validate that strategy",
-        hint: "Try: Buy $100 of NVDA if it falls 2% below its reference price.",
-      });
-    }
-
-    const s = parsed.data;
-    if (s.conditionType.includes("REFERENCE") && s.referenceMultiplier == null) {
-      return NextResponse.json({
-        error: "Missing reference multiplier",
-        hint: "Specify a percent vs the reference price, e.g. 2% below reference.",
-      });
-    }
-    if ((s.conditionType === "PRICE_BELOW" || s.conditionType === "PRICE_ABOVE") && s.threshold == null) {
-      return NextResponse.json({
-        error: "Missing price threshold",
-        hint: "Specify a dollar price, e.g. below $180.",
-      });
-    }
-
-    return NextResponse.json(s);
+    return finish(raw);
   } catch (e: unknown) {
     console.error("parse", e);
-    return NextResponse.json(
-      {
-        error: "Parser failed",
-        hint: "Try a more specific prompt: Buy $100 of NVDA if it falls 2% below its reference price.",
-      },
-      { status: 500 }
-    );
+    return finish(local);
   }
 }

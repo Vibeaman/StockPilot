@@ -21,6 +21,8 @@ export const XSTOCKS: Asset[] = [
     source: "xStocks",
     marketFeedId: "4244d07890e4610f46bbde67de8f43a4bf8b569eebe904f136b469f148503b7f",
     referenceFeedId: "b1073854ed24cbc755dc527418f52b7d271f6cc967bbf8d8129112b18860a593",
+    marketSymbol: "Crypto.NVDAX/USD",
+    referenceSymbol: "Equity.US.NVDA/USD",
   },
   {
     symbol: "AAPL",
@@ -31,6 +33,8 @@ export const XSTOCKS: Asset[] = [
     source: "xStocks",
     marketFeedId: "978e6cc68a119ce066aa830017318563a9ed04ec3a0a6439010fc11296a58675",
     referenceFeedId: "49f6b65cb1de6b10eaf75e7c03ca029c306d0357e91b5311b175084a5ad55688",
+    marketSymbol: "Crypto.AAPLX/USD",
+    referenceSymbol: "Equity.US.AAPL/USD",
   },
   {
     symbol: "TSLA",
@@ -41,6 +45,8 @@ export const XSTOCKS: Asset[] = [
     source: "xStocks",
     marketFeedId: "47a156470288850a440df3a6ce85a55917b813a19bb5b31128a33a986566a362",
     referenceFeedId: "16dad506d7db8da01c87581c87ca897a012a153557d4d578c3b9c9e1bc0632f1",
+    marketSymbol: "Crypto.TSLAX/USD",
+    referenceSymbol: "Equity.US.TSLA/USD",
   },
   {
     symbol: "MSFT",
@@ -51,6 +57,8 @@ export const XSTOCKS: Asset[] = [
     source: "xStocks",
     marketFeedId: "bb723a70af731ab56b9a650eb7e8ac22b7bc07ea77f8670bd1fa9a37bf6df3f5",
     referenceFeedId: "d0ca23c1cc005e004ccf1db5bf76aeb6a49218f43dac3d4b275e92de12ded4d1",
+    marketSymbol: "Crypto.MSFTX/USD",
+    referenceSymbol: "Equity.US.MSFT/USD",
   },
 ];
 

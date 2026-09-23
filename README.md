@@ -12,7 +12,7 @@ You type:
 
 > Buy $100 of NVDA if it falls 2% below its reference price.
 
-Gemini turns that into a **validated, deterministic rule**. It cannot sign. When Pyth says the xStock (`Crypto.NVDAX/USD`) is 2% under the cash print (`Equity.US.NVDA/USD`), you review and **your wallet** signs a Jupiter swap.
+A local parser (Gemini optional) turns that into a **validated, deterministic rule**. It cannot sign. When Pyth Pro says the xStock (`Crypto.NVDAX/USD`) is 2% under the cash print (`Equity.US.NVDA/USD`), you review and **your wallet** signs a Jupiter swap.
 
 Stock Agents are saved rules — not Clawpump agents, not unrestricted LLM traders.
 
@@ -37,7 +37,7 @@ Skipped: Tessera (conflicts with PreStocks DQ), Clawpump (different product).
 
 ## Stack
 
-Next.js 15 · TypeScript · Tailwind 4 · Solana wallet adapter · Gemini (`@google/genai`) · Pyth Hermes · PreStocks public API · Jupiter Ultra · Meteora DBC preset (documented, not faked)
+Next.js 15 · TypeScript · Tailwind 4 · Solana wallet adapter · local NL parser (Gemini optional) · Pyth Pro (`pyth.dourolabs.app`) · PreStocks public API · Jupiter Ultra · Meteora DBC preset (documented, not faked)
 
 Persistence is **localStorage** keyed by wallet (no private keys). Swap in Supabase later if you want.
 
@@ -48,12 +48,12 @@ Persistence is **localStorage** keyed by wallet (no private keys). Swap in Supab
 
 | Name | Required | Where to get it | Vercel environments |
 |---|---|---|---|
-| `GEMINI_API_KEY` | **Yes** | [Google AI Studio](https://aistudio.google.com/apikey) | Production, Preview, Development |
-| `PYTH_API_KEY` | **Yes for live Pyth** | [Pyth Terminal](https://docs.pyth.network/price-feeds/core/upgrade/preparing) (free trial) | Production, Preview, Development |
+| `PYTH_API_KEY` | **Yes for live prices** | Pyth Terminal — paste **only the Bearer token**, not the curl | Production, Preview, Development |
+| `GEMINI_API_KEY` | No | Optional. Demo prompt works without it. | Production, Preview |
 | `NEXT_PUBLIC_SOLANA_RPC_URL` | No | Public mainnet is the default. Helius/Triton is better on demo day. | Production, Preview |
 | `NEXT_PUBLIC_SOLANA_CLUSTER` | No | `mainnet-beta` | Production |
 
-Do **not** prefix `GEMINI_API_KEY` or `PYTH_API_KEY` with `NEXT_PUBLIC_`. Those stay on the server (`/api/strategy/parse`, `/api/prices`).
+Do **not** prefix `PYTH_API_KEY` or `GEMINI_API_KEY` with `NEXT_PUBLIC_`. Those stay on the server (`/api/prices`, `/api/strategy/parse`).
 
 3. Deploy. Paste the `*.vercel.app` URL into the Stocklana submission.
 
@@ -61,7 +61,7 @@ No agent API key. No Jupiter key. No PreStocks key. No private keys.
 
 ## Integrations (honest)
 
-- **Pyth** — `GET /api/prices` hits Hermes `v2/updates/price/latest` with real feed IDs (see `src/lib/assets.ts`).
+- **Pyth Pro** — `GET /api/prices` hits `https://pyth.dourolabs.app/v1/fixed_rate@1000ms/history` with `Crypto.{TICKER}X/USD` vs `Equity.US.{TICKER}/USD`. Falls back to Hermes if Pro fails.
 - **PreStocks** — public JSON, mark vs token price as reference/market.
 - **Jupiter Ultra** — `lite-api.jup.ag/ultra/v1/order` for USDC ↔ xStock. If there is no route, we surface the error. We never invent a signature.
 - **Meteora DBC** — equity curve documented in `src/lib/meteora.ts`. Live `createPool` needs a partner config; the UI says so.

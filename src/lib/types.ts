@@ -17,6 +17,9 @@ export type Asset = {
   logo?: string;
   marketFeedId?: string;
   referenceFeedId?: string;
+  /** Pyth Pro History API symbols, e.g. Crypto.NVDAX/USD */
+  marketSymbol?: string;
+  referenceSymbol?: string;
   source: "xStocks" | "PreStocks";
 };
 
