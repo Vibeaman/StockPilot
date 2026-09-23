@@ -153,7 +153,9 @@ export default function MarketPage() {
       <section>
         <div className="flex items-baseline justify-between mb-3">
           <h2 className="text-sm uppercase tracking-widest text-[#9a96b0]">PreStocks · pre-IPO</h2>
-          <span className="text-[11px] text-[#9a96b0]">mark vs token (PreStocks API)</span>
+          <Link href="/prestocks" className="text-[11px] text-[#14f195]">
+            Mark desk →
+          </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {(data?.prestocks ?? []).slice(0, 8).map((a) => {

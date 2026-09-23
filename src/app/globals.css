@@ -67,6 +67,8 @@ body {
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+.table-scroll { overflow-x: auto; }
+
 .wallet-slot .wallet-adapter-button {
   background: transparent !important;
   border: 1px solid var(--line) !important;

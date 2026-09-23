@@ -21,6 +21,11 @@ export type Asset = {
   marketSymbol?: string;
   referenceSymbol?: string;
   source: "xStocks" | "PreStocks";
+  description?: string;
+  markValuation?: number;
+  impliedValuation?: number;
+  supply?: number;
+  externalUrl?: string;
 };
 
 export type PriceQuote = {
@@ -72,4 +77,18 @@ export type Activity = {
 export type ParseError = {
   error: string;
   hint?: string;
+};
+
+/** Paper fill against PreStocks token vs SPV mark. Not a Jupiter swap. */
+export type PaperFill = {
+  id: string;
+  wallet: string;
+  symbol: string;
+  name: string;
+  side: "BUY" | "SELL";
+  notionalUsd: number;
+  tokenPrice: number;
+  markPrice: number;
+  premiumDiscountPct: number | null;
+  createdAt: string;
 };

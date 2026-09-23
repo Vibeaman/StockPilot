@@ -57,3 +57,31 @@ export function defaultName(s: ParsedStrategy): string {
     s.action === "BUY" ? "Buyer" : s.action === "SELL" ? "Seller" : "Watcher";
   return `${s.asset} ${verb}`;
 }
+
+/**
+ * Unrealized P&L if the PreStock token converges to the SPV mark.
+ * BUY cheap (discount): profit as token rises toward mark.
+ * SELL rich (premium): profit as token falls toward mark.
+ */
+export function convergencePnl(params: {
+  side: "BUY" | "SELL";
+  notionalUsd: number;
+  entryToken: number;
+  liveToken: number | null;
+  liveMark: number | null;
+}): { toMark: number | null; markToMarket: number | null } {
+  const { side, notionalUsd, entryToken, liveToken, liveMark } = params;
+  if (!entryToken || !Number.isFinite(entryToken)) {
+    return { toMark: null, markToMarket: null };
+  }
+  const dir = side === "BUY" ? 1 : -1;
+  const toMark =
+    liveMark != null && Number.isFinite(liveMark)
+      ? dir * notionalUsd * (liveMark / entryToken - 1)
+      : null;
+  const markToMarket =
+    liveToken != null && Number.isFinite(liveToken)
+      ? dir * notionalUsd * (liveToken / entryToken - 1)
+      : null;
+  return { toMark, markToMarket };
+}

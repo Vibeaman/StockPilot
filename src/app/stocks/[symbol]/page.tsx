@@ -50,6 +50,11 @@ export default function StockPage() {
           </h1>
         </div>
         <div className="flex gap-2">
+          {asset.kind === "prestock" && (
+            <Link href="/prestocks" className="px-4 py-2 text-sm panel">
+              Mark desk
+            </Link>
+          )}
           <Link
             href={`/terminal?asset=${asset.symbol}`}
             className="px-4 py-2 text-sm bg-[#14f195] text-black font-medium"

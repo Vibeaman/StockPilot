@@ -22,7 +22,7 @@ Stock Agents are saved rules — not Clawpump agents, not unrestricted LLM trade
 |---|---|
 | **Main** | End-to-end terminal: NL → rule → trigger → wallet-signed swap |
 | **Pyth** | Dual feed on every xStock: market vs reference + live premium/discount |
-| **PreStocks** | Live `prestocks.com/api/prestocks` (SpaceX, OpenAI, Anduril, …). Same strategy language. No non-PreStocks pre-IPO tokens. |
+| **PreStocks** | `/prestocks` mark desk: live token vs SPV mark, paper buy/sell of the gap, P&L if the token converges to mark. Same strategy language. No non-PreStocks pre-IPO tokens. |
 | **Meteora DBC** | `/launch` — equity-style DBC preset (USDC quote, flatter curve, $250k graduation, leftover vesting). We do **not** fake a pool. |
 
 Skipped: Tessera (conflicts with PreStocks DQ), Clawpump (different product).
@@ -62,10 +62,10 @@ No agent API key. No Jupiter key. No PreStocks key. No private keys.
 ## Integrations (honest)
 
 - **Pyth Pro** — `GET /api/prices` hits `https://pyth.dourolabs.app/v1/fixed_rate@1000ms/history` with `Crypto.{TICKER}X/USD` vs `Equity.US.{TICKER}/USD`. Falls back to Hermes if Pro fails.
-- **PreStocks** — public JSON, mark vs token price as reference/market.
+- **PreStocks** — public JSON, mark vs token price as reference/market. `/prestocks` is PreStocks-only: ranked spreads, paper fills, convergence P&L. No Jupiter signature is invented.
 - **Jupiter Ultra** — `lite-api.jup.ag/ultra/v1/order` for USDC ↔ xStock. If there is no route, we surface the error. We never invent a signature.
 - **Meteora DBC** — equity curve documented in `src/lib/meteora.ts`. Live `createPool` needs a partner config; the UI says so.
-- **PreStocks swaps** — treated as ALERT in this MVP (thin/no Jupiter route). Strategies still parse and save.
+- **PreStocks swaps** — Jupiter Ultra does not route these mints. Terminal treats them as ALERT. The mark desk papers the spread instead of faking a tx.
 
 ## xStock mints (verify before trading)
 

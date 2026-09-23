@@ -1,7 +1,8 @@
-import type { Activity, Strategy } from "./types";
+import type { Activity, PaperFill, Strategy } from "./types";
 
 const SK = "sp_strategies";
 const AK = "sp_activity";
+const PK = "sp_paper_fills";
 
 function read<T>(key: string, fallback: T): T {
   if (typeof window === "undefined") return fallback;
@@ -47,4 +48,22 @@ export function saveActivity(a: Activity) {
   const all = read<Activity[]>(AK, []);
   all.unshift(a);
   write(AK, all.slice(0, 200));
+}
+
+export function loadPaperFills(wallet?: string | null): PaperFill[] {
+  const all = read<PaperFill[]>(PK, []);
+  return wallet ? all.filter((f) => f.wallet === wallet) : all;
+}
+
+export function savePaperFill(f: PaperFill) {
+  const all = read<PaperFill[]>(PK, []);
+  all.unshift(f);
+  write(PK, all.slice(0, 200));
+}
+
+export function deletePaperFill(id: string) {
+  write(
+    PK,
+    read<PaperFill[]>(PK, []).filter((f) => f.id !== id)
+  );
 }
